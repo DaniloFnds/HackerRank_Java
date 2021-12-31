@@ -21,7 +21,7 @@ public class DuplicateWords {
                 "Hello hello Ab aB"));
         int numSentences = Integer.parseInt(in.nextLine());
 
-        while (numSentences-- > 0) {
+        while (numSentences-- > 0 && in.hasNextLine()) {
             String input = in.nextLine();
 
             Matcher m = p.matcher(input);
