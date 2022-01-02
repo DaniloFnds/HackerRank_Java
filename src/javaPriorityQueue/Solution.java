@@ -16,8 +16,8 @@ class Priorities {
                 System.out.println(o1);
                 System.out.println(o2);
                 System.out.println("---------------");
-                if (Double.compare(o1.getCgpa(), o2.getCgpa()) == 0) {
-                    if (o1.getName().compareTo(o2.getName()) == 0) {
+                if (o2.getCgpa() == o1.getCgpa()) {
+                    if (o1.getName().equals(o2.getName())) {
                         return Integer.compare(o1.getId(), o2.getId());
                     } else {
                         return o1.getName().compareTo(o2.getName());
@@ -26,14 +26,15 @@ class Priorities {
                 return Double.compare(o2.getCgpa(), o1.getCgpa());
             }
         });
-        events.forEach(e -> {
-
+        for (String e : events) {
             final String[] s = e.split(" ");
+            final String event = s[0];
+            if ("SERVED".equals(event) && queue.size() == 0) {
+                continue;
+            }
             if (s.length == 1) {
                 queue.remove();
-                System.out.println();
             } else {
-                final String event = s[0];
                 final String name = s[1];
                 final double cgpa = Double.parseDouble(s[2]);
                 final int id = Integer.parseInt(s[3]);
@@ -46,15 +47,15 @@ class Priorities {
                 }
                 System.out.println(queue);
             }
-        });
-        System.out.println(queue);
-
-        return new ArrayList<>(queue);
+        };
+        final ArrayList<Student> students = new ArrayList<>(queue);
+        Collections.sort(students);
+        return students;
     }
 
 }
 
-class Student {
+class Student implements Comparable<Student> {
     private String name;
     private int id;
     private double cgpa;
@@ -78,30 +79,50 @@ class Student {
     }
 
     @Override
-    public String toString() {
-        return "Student{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", cgpa=" + cgpa +
-                '}';
+    public int compareTo(Student o2) {
+        if (o2.getCgpa() == this.getCgpa()) {
+            if (this.getName().equals(o2.getName())) {
+                return Integer.compare(this.getId(), o2.getId());
+            } else {
+                return this.getName().compareTo(o2.getName());
+            }
+        }
+        return Double.compare(o2.getCgpa(), this.getCgpa());
     }
-
 }
 
 
 public class Solution {
-    private final static Scanner scan = new Scanner(new StringReader("12\n" +
-            "ENTER John 3.75 50\n" +
-            "ENTER Mark 3.8 24\n" +
-            "ENTER Shafaet 3.7 35\n" +
+    private final static Scanner scan = new Scanner(new StringReader("30\n" +
             "SERVED\n" +
             "SERVED\n" +
-            "ENTER Samiha 3.85 36\n" +
             "SERVED\n" +
-            "ENTER Ashley 3.9 42\n" +
-            "ENTER Maria 3.6 46\n" +
-            "ENTER Anik 3.95 49\n" +
-            "ENTER Dan 3.95 50\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
+            "SERVED\n" +
             "SERVED"));
     private final static Priorities priorities = new Priorities();
 
